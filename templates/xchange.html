@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Currency Exchange
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Exchange yo Currency
+	{% endif %}
+{% endblock %}

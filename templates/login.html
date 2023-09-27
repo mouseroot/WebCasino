@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block header %}
+    {% if current_user.is_authenticated %}
+        {{ current_user.username }} - <a href="/profile">Profile</a> | <a href="/bank">Bank</a> | <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a> | <a href="/register">Register</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if not current_user.is_authenticated %}
+		<h1>Login to your account</h1>
+		<form action="#" method="post">
+		<label for="username">Username:</label>
+		<input type="text" name="username" /><br />
+		<label for="password">Password:</label>
+		<input type="password" name="password" /><br />
+		<button type="submit">Submit</button>
+		</form>
+	{% endif %}
+	<a href="{{ url_for('index')}}">Home</a>
+{% endblock %}
+
+
+

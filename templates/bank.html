@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Bank
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Bank
+	{% endif %}
+{% endblock %}

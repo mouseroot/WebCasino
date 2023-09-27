@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+	🔘 Coin Slots
+{% endblock %}
+
+{% block content %}
+
+	{% if current_user.is_authenticated %}
+		{% if msg  %}
+			{{ msg }}<br />
+		{% endif %}
+		Gamble your 🔘 Away<br />
+		<form action="#" method="post">
+			<label for="bet">bet:</label>
+			<input type="text" name="bet" value="10"/><br />
+			<button type="submit">Play Slots</button>
+		</form>
+		<a href="/casino">Go back to Casino</a>
+	{% endif %}
+{% endblock %}

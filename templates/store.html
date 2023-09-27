@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Store
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Welcome to store
+	{% endif %}
+{% endblock %}

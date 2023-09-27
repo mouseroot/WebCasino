@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Rest
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		{{ msg }}<br />
+        <a href="/home">Return Home</a>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Personal Home
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Your own home<br />
+		<a href="/rest">🛌 Rest</a>
+	{% endif %}
+{% endblock %}

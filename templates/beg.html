@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Beg
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		You go begging...<br />
+        <br />
+        {{ phrase }}
+        <br />
+        You gained {{ amt }} {{ amt_type }}
+        <br />
+        <a href="/casino">Back to the Casino</a>
+	{% endif %}
+{% endblock %}

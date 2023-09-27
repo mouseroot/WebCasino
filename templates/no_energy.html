@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Out of Energy
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Your out of ⚡ <br />
+        <a href="/home">Go Home and Rest to gain ⚡</a><br />
+	{% endif %}
+{% endblock %}

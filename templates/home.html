@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		<a href="/casino">🎰 Go to Casino</a><br />
+		<a href="/home">🏠 Go Home</a><br />
+		<a href="/bank">🏦 Go Bank</a><br />
+		<a href="/library">📕 Go Library</a><br />
+		<a href="/xchange">💶 Go Currency Exchange</a><br />
+		<a href="/store">🏬 Go Store</a><br />
+		<a href="/airport">✈ Go Airport</a><br />
+		<a href="/docks">🚢 Go Docks</a><br />
+	{% endif %}
+
+	<br />
+	
+	{% if not current_user.is_authenticated %}
+		<p>Recent Signups</p>
+		{% for user in all_users %}
+			<a href="/user/{{ user.username }}">{{ user.username }}</a><br />
+		{% endfor %}
+	{% endif %}
+{% endblock %}
+

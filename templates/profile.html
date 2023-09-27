@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ user.username }} Profile
+{% endblock %}
+
+{% block content %}
+<p> {{user.username }} profile</p>
+<ul>
+    <li> 💵 ${{ profile.bucks }} Bucks</li>
+    <li> 🔘 {{ profile.coins }} Coins</li>
+    <li> 🟡 {{ profile.limecoins }} Limecoins</li>
+    <li> ✔ {{ profile.wins }} Wins</li>
+    <li> ❌ {{ profile.losses }} Losses</li>
+</ul>
+{% endblock %}

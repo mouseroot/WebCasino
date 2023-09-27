@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Docks
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+		Float Away at the Docks
+	{% endif %}
+{% endblock %}
