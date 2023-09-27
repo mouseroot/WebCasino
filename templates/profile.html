@@ -17,6 +17,6 @@
     <li> ❌ {{ profile.losses }} Losses</li>
 </ul>
     {% if current_user.is_authenticated %}
-        <a href="/send_message/{{user.username}}">Send Message to {{ user.username}}</a>
+        <a href="/send_message/{{user.username}}">✉ Send Message to {{ user.username}}</a>
     {% endif %}
 {% endblock %}
