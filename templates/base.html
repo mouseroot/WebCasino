@@ -4,24 +4,42 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        * {
+            font-family: Georgia;
+            font-size: 17px;
+        }
+    </style>
 	<title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <h2>Web Casino v1.1</h2>
     {% if current_user.is_authenticated %}
-        {{ current_user.username }} - <a href="/profile">Profile</a><br />
+        {{ current_user.username }} - <a href="/dashboard">💻 Dashboard</a><br />
         💵 ${{ current_user.get_profile().bucks }} | 🔘 {{ current_user.get_profile().coins }} | 🟡 {{ current_user.get_profile().limecoins }}<br />
         ⚡ {{ current_user.get_profile().energy }}<br />
+        ✉ {{ messages | count }} Messages <br />
 
     {% else %}
-        <a href="/login">Login</a> | <a href="/register">Register</a>
+        <a href="/login">💻 Login</a> | <a href="/register">✏ Register</a>
     {% endif %}
-    <div id="content" style="text-align: center;">
+    <hr />
+    <div id="content">
         {% block content %}{% endblock %}
     </div>
-	<a href="/">Main Menu</a><br />
+    {% if current_user.is_authenticated %}
+        <hr />
+        <a href="/">Main Menu</a><br />
+    {% endif %}
+	<hr />
+    <p>Recent Signups</p>
+    {% for user in all_users %}
+        <a href="/user/{{ user.username }}">{{ user.username }}</a><br />
+    {% endfor %}
+    Game by Mouseroot<br />
+    <br />
     {% if current_user.is_authenticated %}
         <a href="/logout">Logout</a>
     {% endif %}
-	<hr />	
 </body>
 </html>

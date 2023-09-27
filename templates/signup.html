@@ -8,14 +8,19 @@ Create a new account
 {% if msg %}
 	{{ msg }}
 {% endif %}
-<center>
-	<form action="#" method="post">
-	<label for="username">Username:</label>
-	<input type="text" name="username" /><br />
-	<label for="password">Password:</label>
-	<input type="password" name="password" /><br />
-	<button type="submit">Submit</button>
-	</form>
-</center>
+
+<form action="#" method="post">
+<label for="username">Your new username:</label>
+<input type="text" name="username" /><br />
+
+<label for="password">a password:</label>
+<input type="password" name="password" /><br />
+
+<label for="password2">same password:</label>
+<input type="password" name="password2" /><br />
+
+<button type="submit">Submit</button>
+</form>
+
 {% endblock %}
 

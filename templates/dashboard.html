@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ user.username }} Profile
+My Dashboard
 {% endblock %}
 
 {% block content %}
-<p> {{user.username }} profile</p>
+<p>💻 My Dashboard</p>
 <ul>
     <li> 💵 ${{ profile.bucks }} Bucks</li>
     <li> 🔘 {{ profile.coins }} Coins</li>
@@ -16,7 +16,12 @@
     <li> ✔ {{ profile.wins }} Wins</li>
     <li> ❌ {{ profile.losses }} Losses</li>
 </ul>
+Messages<br />
     {% if current_user.is_authenticated %}
-        <a href="/send_message/{{user.username}}">Send Message to {{ user.username}}</a>
+        <ul>
+        {% for message in messages %}
+            <li>{{message.sender_id}} - {{ message.content }}</li>
+        {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}

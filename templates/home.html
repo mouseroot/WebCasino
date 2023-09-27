@@ -19,10 +19,7 @@
 	<br />
 	
 	{% if not current_user.is_authenticated %}
-		<p>Recent Signups</p>
-		{% for user in all_users %}
-			<a href="/user/{{ user.username }}">{{ user.username }}</a><br />
-		{% endfor %}
+		
 	{% endif %}
 {% endblock %}
 

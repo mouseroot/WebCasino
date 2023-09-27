@@ -6,6 +6,21 @@
 
 {% block content %}
 	{% if current_user.is_authenticated %}
-		Bank
+	<p>💵 Current Funds: ${{ bank.bucks }}</p>
+	{% if msg %}
+	{{ msg }}<br />
+	{% endif %}
+	Take Funds
+	<form action="/bank/withdrawl" method="post">
+		<label for="bet">Withdrawl:</label>
+		<input type="text" name="value" value="10"/><br />
+		<button type="submit">Withdrawl</button>
+	</form><br /><br />
+	Deposit Funds
+	<form action="/bank/deposit" method="post">
+		<label for="bet">Deposit:</label>
+		<input type="text" name="value" value="10"/><br />
+		<button type="submit">Deposit</button>
+	</form>
 	{% endif %}
 {% endblock %}

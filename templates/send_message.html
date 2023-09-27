@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Currency Exchange
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+        {% if msg %}
+        {{msg}}<br />
+        {% endif %}
+        {% if user %}
+		    Send a message to {{ user.username }}
+        {% endif %}
+        <form action="/send_message" method="post">
+            <label for="password">Content:</label>
+            <input type="text" name="content" /><br />
+            <input type="hidden" name="target_id" value="{{user.id}}" />
+            <button type="submit">🔊 Send Message</button>
+            </form>
+	{% endif %}
+{% endblock %}

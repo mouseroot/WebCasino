@@ -35,6 +35,9 @@ class Users(UserMixin, db.Model):
     
     def get_bank(self):
         return Bank.query.filter_by(user_id=self.id).first()
+    
+    def get_messages(self):
+        return Messages.query.filter_by(user_id=self.id).all()
 
 class Profile(db.Model):
     id = db.Column(db.Integer,primary_key=True, autoincrement=True)
@@ -98,6 +101,20 @@ class Bank(db.Model):
     user_id = db.Column(db.Integer(), nullable=False)
     bucks = db.Column(db.Integer(), nullable=False)
 
+class Messages(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    sender_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    is_read = db.Column(db.Integer, nullable=True)
+
+    def get_author(self):
+        return Users.query.filter_by(id=self.sender_id).first()
+
+"""
+class ModelName(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+"""
 
 
 @login_manager.user_loader
@@ -107,25 +124,47 @@ def get_user(id):
 #Routes
 @app.route("/")
 def index():
+    global current_login
     all_users = Users.query.all()
     return render_template("home.html",all_users=all_users)
+
+@app.get("/send_message/<target>")
+def send_message(target):
+    global current_login
+    target_user = Users.query.filter_by(username=target).first()
+    if target_user:
+        return render_template("send_message.html",msg=None, user=target_user)
+    
+    else:
+        return render_template("invalid_login.html",msg=f'{target} is not a user')
+
+@app.post("/send_message")
+def post_message():
+    global current_login
+    content = request.form.get("content")
+    target_id = request.form.get("target_id")
+    print(f"Attempting to send '{content}' to {target_id}")
+    target_user = Users.query.filter_by(id=int(target_id)).first()
+    if int(target_user.id) == current_login.id:
+            return render_template("send_message.html",msg=f'❌ Cant send a message to yourself', user=target_user)
+    if target_user:
+        new_message = Messages(
+            sender_id = current_login.id,
+            user_id = int(target_id),
+            content = content,
+            is_read = 0
+        )
+        db.session.add(new_message)
+        db.session.commit()
+        return redirect(f"/user/{target_user.username}")
+    else:
+        return redirect("/")
 
 
 @app.route("/casino")
 def casino():
     global current_login
     return render_template("casino.html",user=current_login)
-
-"""
-<a href="/casino">🎰 Go to Casino</a><br />
-<a href="/home">🏠 Go Home</a><br />
-<a href="/bank">🏦 Go Bank</a><br />
-<a href="/library">📕 Go Library</a><br />
-<a href="/xchange">💶 Go Currency Exchange</a><br />
-<a href="/store">🏬 Go Store</a><br />
-<a href="/airport">✈ Go Airport</a><br />
-<a href="/docks">🚢 Go Docks</a><br />
-"""
 
 @app.route("/home")
 def home():
@@ -135,7 +174,37 @@ def home():
 @app.route("/bank")
 def bank():
     global current_login
-    return render_template("bank.html",user=current_login)
+    current_bank = current_login.get_bank()
+    return render_template("bank.html",user=current_login, bank=current_bank)
+
+@app.post("/bank/withdrawl")
+def withdrawl():
+    global current_login
+    current_profile = current_login.get_profile()
+    current_bank = current_login.get_bank()
+    amt = int(request.form.get("value"))
+    if current_bank.bucks >= amt:
+        current_bank.bucks -= amt
+        current_profile.bucks += amt;
+        db.session.commit()
+        return render_template("bank.html",msg=f'🏧 Withdrew {amt} from bank',bank=current_bank)
+    else:
+        return render_template("bank.html",msg=f'❌ Insufficent Funds',bank=current_bank)
+    
+@app.post("/bank/deposit")
+def deposit():
+    global current_login
+    current_profile = current_login.get_profile()
+    current_bank = current_login.get_bank()
+    amt = int(request.form.get("value"))
+    if current_profile.bucks >= amt:
+        current_profile.bucks -= amt
+        current_bank.bucks += amt
+        db.session.commit()
+        return render_template("bank.html",msg=f'💵 Depositted {amt} Bucks into Account',bank=current_bank)
+    else:
+        return render_template("bank.html",msg=f'❌ Insufficent Funds',bank=current_bank)
+
 
 @app.route("/library")
 def library():
@@ -177,13 +246,22 @@ def beg():
     current_profile = current_login.get_profile()
     if current_profile.energy <= 0:
         return render_template("no_energy.html",user=current_login)
-    r_beg = random.randint(1,10)
     
-    beg_phrases = ["Here, ya go","Thats pathetic, but here","You poor thing, here you go."]
-    currencies = ["bucks","coins","limecoins"]
-    r_phrase = random.choice(beg_phrases)
-    r_type = random.choice(currencies)
-    current_profile.add_by_string(r_type, r_beg)
+    event_chances = [False, True, False, False, False, False, True, False, False, True]
+    r_event = random.choice(event_chances)
+    if r_event:
+        r_beg = random.randint(1,10)
+        
+        beg_phrases = ["Here, ya go","Thats pathetic, but here","You poor thing, here you go."]
+        currencies = ["bucks","coins","limecoins"]
+        r_phrase = random.choice(beg_phrases)
+        r_type = random.choice(currencies)
+        current_profile.add_by_string(r_type, r_beg)
+    else:
+        beg_phrases = ["Many pass by, but nobody offers you anything","They ignore you"]
+        r_phrase = random.choice(beg_phrases)
+        r_beg = False
+        r_type = False
     current_profile.sub_energy(10)
     db.session.commit()
     return render_template("beg.html",user=current_login,phrase=r_phrase,amt=r_beg,amt_type=r_type)
@@ -203,6 +281,7 @@ def slots():
             curr_profile.sub_energy(5)
             roll = "2,3,4,5,6,7,8,9,A,J,K,Q,♥,♦,♠,♣".split(",")
             rolls = []
+            roll_data = []
             multi = 0
             did_win = False
             winning = 0
@@ -212,6 +291,7 @@ def slots():
                     random.seed(None)
                     roll_i = random.choice(roll)
                     rolls.append(roll_i)
+                roll_data.append(rolls)
                 print(f"SPIN {i}/5\t{rolls[0]}|{rolls[1]}|{rolls[2]}")
                 
                 
@@ -253,20 +333,17 @@ def slots():
                 msg = f"👎 You lost {bet} coins"
                 curr_profile.losses += 1
             db.session.commit()
-            return render_template("slot_coin.html",user=current_login,winning=winning,msg=msg)
+            return render_template("slot_coin.html",user=current_login,winning=winning,msg=msg,data=roll_data)
         else:
             return render_template("slot_coin.html",user=current_login,winning=False,msg=
             f'❌ Not enough coin to bet {bet}')
     elif request.method == "GET":
         return render_template("slot_coin.html",user=current_login,winning=False,msg=False)
 
-@app.get("/profile")
+@app.get("/dashboard")
 def profile():
     global current_login
-    print()
-    print("/Profile Debug")
-    print(current_login)
-    return render_template("profile.html",user=current_login, profile=current_login.get_profile())
+    return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
 
 @app.get("/user/<name>")
 def get_profile(name):

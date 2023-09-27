@@ -10,7 +10,9 @@
         <br />
         {{ phrase }}
         <br />
-        You gained {{ amt }} {{ amt_type }}
+        {% if amt %}
+            You gained {{ amt }} {{ amt_type }}
+        {% endif %}
         <br />
         <a href="/casino">Back to the Casino</a>
 	{% endif %}
