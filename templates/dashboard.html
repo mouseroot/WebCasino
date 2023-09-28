@@ -20,7 +20,7 @@ Messages<br />
     {% if current_user.is_authenticated %}
         <ul>
         {% for message in messages %}
-            <li>{{message.sender_id}} - {{ message.content }}</li>
+            <li>{{message.get_author().username}} - {{ message.content }}</li>
         {% endfor %}
         </ul>
     {% endif %}
