@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 
 {% block title %}
-Casino
+🎰 Web Casino - Casino
 {% endblock %}
 
 
 {% block content %}
-Welcome to the casino area<br />
-<a href="/beg">🙌 Go Begging</a><br />
-<a href="/slots/coins">🔘🎰 Play Coin Slots</a><br />
+<br />
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">Welcome to the casino area</div>
+            <div class="card-body">
+                <div class="card-text">
+                <a href="/beg" class="btn btn-primary">🙌 Go Begging</a>
+                <a href="/slots/coins" class="btn btn-primary">🔘🎰 Play Coin Slots</a>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
 {% endblock %}

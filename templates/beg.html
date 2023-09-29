@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-	Beg
+🙌 Web Casino - Beg
 {% endblock %}
 
 {% block content %}
+<br />
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
 	{% if current_user.is_authenticated %}
-		You go begging...<br />
-        <br />
-        {{ phrase }}
-        <br />
-        {% if amt %}
-            You gained {{ amt }} {{ amt_type }}
+        <div class="card">
+            <div class="card-header">{{ phrase }}</div>
+            {% if amt %}
+                <div class="card-body">  
+                    You gained {{ amt }} {{ amt_type }}         
+                </div>
+            {% endif %}
+            <div class="card-footer">
+                <a href="/casino" class="btn btn-primary">🎰 Back to the Casino</a>
+            </div>
         {% endif %}
-        <br />
-        <a href="/casino">Back to the Casino</a>
-	{% endif %}
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
 {% endblock %}

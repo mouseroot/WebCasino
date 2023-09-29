@@ -6,21 +6,43 @@
 
 {% block content %}
 	{% if current_user.is_authenticated %}
-	<p>💵 Current Funds: ${{ bank.bucks }}</p>
-	{% if msg %}
-	{{ msg }}<br />
-	{% endif %}
-	Take Funds
-	<form action="/bank/withdrawl" method="post">
-		<label for="bet">Withdrawl:</label>
-		<input type="text" name="value" value="10"/><br />
-		<button type="submit">Withdrawl</button>
-	</form><br /><br />
-	Deposit Funds
-	<form action="/bank/deposit" method="post">
-		<label for="bet">Deposit:</label>
-		<input type="text" name="value" value="10"/><br />
-		<button type="submit">Deposit</button>
-	</form>
+	<br />
+	<div class="row">
+		<div class="col"></div>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header">
+					<h2>💰 Welcome to the Bank</h2>
+					<p>💵 Current Funds: ${{ bank.bucks | money_format }}</p>
+				</div>
+				<div class="card-body">
+					<span class="card-title">Deposit</span>
+						<form action="/bank/deposit" method="post">
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">$</span>
+								<input type="text" name="value" class="form-control" placeholder="Ammount to Deposit" aria-label="Username" aria-describedby="basic-addon1">
+							</div>
+						<br />
+						<button type="submit" class="btn btn-primary">Deposit</button>
+
+						</form>
+				</div>
+				<div class="card-body">
+					<span class="card-title">Widthdrawl</span>
+						<form action="/bank/withdrawl" method="post">
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">$</span>
+								<input type="text" name="value" class="form-control" placeholder="Ammount to Withdrawl" aria-label="Username" aria-describedby="basic-addon1">
+							</div>
+						<br />
+						<button type="submit" class="btn btn-primary">Withdrawl</button>
+
+						</form>
+
+				</div>
+			</div>
+		</div>
+		<div class="col"></div>
+	</div>
 	{% endif %}
 {% endblock %}

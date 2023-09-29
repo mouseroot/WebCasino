@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+	🧑 Members
+{% endblock %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+    <br />
+    <div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">🧑 Members</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush" style="text-align: left;">
+                    
+                {% for member in users %}
+                    <li class="list-group-item"><a href="/user/{{ member.username }}">{{ member.username}}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col"></div>
+    </div>
+	{% endif %}
+{% endblock %}

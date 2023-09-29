@@ -46,7 +46,7 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, nullable=False, autoincrement=True)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), unique=False, nullable=False)
-
+    email = db.Column(db.String(250), unique=True, nullable=False)
     def get_profile(self):
         return Profile.query.filter_by(user_id=self.id).first()
     
@@ -142,8 +142,24 @@ def get_user(id):
 @app.route("/")
 def index():
     global current_login
-    all_users = Users.query.all()
-    return render_template("home.html",all_users=all_users)
+    if current_login:
+        return render_template("home.html",messages=current_login.get_messages())
+    else:
+        logout()
+        return render_template("home.html",messages=None)
+
+
+@app.get("/messages/delete/<target>")
+def delete_target(target):
+    i = int(target)
+    sel_message = Messages.query.filter_by(id=i).first()
+    if sel_message.user_id == current_login.id:
+        print(f"Removing {i} -> {sel_message.content}")
+        db.session.delete(sel_message)
+        db.session.commit()
+        return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
+    else:
+        return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages(),msg_error=f'❌ Attempting to remove a message that you didnt send!!!')
 
 @app.get("/send_message/<target>")
 def send_message(target):
@@ -371,6 +387,12 @@ def profile():
     else:
         return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
 
+
+@app.get("/members")
+def member_view():
+    global current_login
+    return render_template("members.html",users=Users.query.all())
+
 @app.get("/user/<name>")
 def get_profile(name):
     user = Users.query.filter_by(username=name).first()
@@ -387,6 +409,7 @@ def register():
         username=request.form.get('username')
         password=request.form.get('password')
         password2=request.form.get("password2")
+        email = request.form.get("email")
         #Check if user exists
         user = Users.query.filter_by(username=username).first()
         if user:
@@ -397,7 +420,8 @@ def register():
             return render_template("signup.html",msg_error=f'❌ Passwords dont match!')
         new_user = Users(
             username=username,
-            password=password
+            password=password,
+            email=email
         )
         #print(f"Register {username} : {password}")
         
@@ -468,3 +492,4 @@ print("Create All...")
 with app.app_context():
     db.create_all()
 
+#app.run(host="0.0.0.0",port=80)
