@@ -6,6 +6,111 @@
 
 {% block content %}
 	{% if current_user.is_authenticated %}
+	<br />
+	<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Casino</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Play slots or beg on the streets</h6>
+				  <p class="card-text">This casino is the best around, no fees and pure profit.</p>
+				  <a href="/casino" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Home</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Go home and relax, regain some energy or watch some tv.</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/home" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Bank</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Store your 💵 Bucks or Make a Widthdrawl</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/bank" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+	  </div>
+	  <br />
+	  <!-- Row 2-->
+	  <div class="row">
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Library</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Learn things, gain knowledge</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/library" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Currency Exchange</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Exchange coin/gems for Bucks</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/xchange" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Store</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Go Shopping</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/store" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+	  </div>
+	  <br />
+	  <!-- Row 3-->
+	  <div class="row">
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Airport</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Fly away</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/airport" class="card-link btn btn-primary">Go</a>
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Docks</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Float away</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/docks" class="card-link btn btn-primary">Go</a>
+
+				</div>
+			  </div>
+		</div>
+		<div class="col">
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">???</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/" class="card-link btn btn-primary">???</a>
+				</div>
+			</div>
+		</div>
+	  </div>
+	  <br />
+	<!--
 		<a href="/casino">🎰 Go to Casino</a><br />
 		<a href="/home">🏠 Go Home</a><br />
 		<a href="/bank">🏦 Go Bank</a><br />
@@ -14,12 +119,51 @@
 		<a href="/store">🏬 Go Store</a><br />
 		<a href="/airport">✈ Go Airport</a><br />
 		<a href="/docks">🚢 Go Docks</a><br />
+	-->
 	{% endif %}
 
 	<br />
 	
 	{% if not current_user.is_authenticated %}
-		
+	<div class="row">
+		<div class="col">
+			<!--
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">Play Slots</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/" class="card-link btn btn-primary">???</a>
+				</div>
+			</div>
+			-->
+		</div>
+
+		<div class="col-6">
+			<div class="card">
+				<div class="card-body">
+				  <h5 class="card-title">Web Casino</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Play Slots, Explore the world, Get Rich, Get Poor</h6>
+				  <p class="card-text">Create an account or login to play</p>
+				  <!--a href="/" class="card-link btn btn-primary">???</a-->
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<!--
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+				  <h5 class="card-title">???</h5>
+				  <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <a href="/" class="card-link btn btn-primary">???</a>
+				</div>
+			</div>
+			-->
+		</div>
+	</div>
 	{% endif %}
+	</div>
 {% endblock %}
 

@@ -15,11 +15,22 @@ My Dashboard
      ⚡ {{ profile.energy }} / 100 Energy<br />
      ✔ {{ profile.wins }} Wins<br />
      ❌ {{ profile.losses }} Losses<br />
-
-    Messages<br />
+    <br />
     {% if current_user.is_authenticated %}
-        {% for message in messages %}
-            {{message.get_author().username}} - {{ message.content }}<br />
-        {% endfor %}
+     <div class="card">
+        <div class="card-header">
+          Messages
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for message in messages %}
+            <li class="list-group-item">
+                <div class="card">
+                    <p>{{message.get_author().username}}</p>
+                    <p>{{ message.content }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+      </div>
     {% endif %}
 {% endblock %}
