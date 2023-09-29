@@ -1,19 +1,31 @@
 {% extends "base.html" %}
 
 {% block title %}
-	Currency Exchange
+Web Casino - Send Message to {{ user.username }}
 {% endblock %}
 
 {% block content %}
-	{% if current_user.is_authenticated %}
-        {% if user %}
-		    Send a message to {{ user.username }}
+<br />
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <div class="card">
+            
+        {% if current_user.is_authenticated %}
+            {% if user %}
+                <div class="card-header">Send a message to {{ user.username }}</div>
+            {% endif %}
+            <div class="card-body">
+                <form action="/send_message" method="post">
+                    <span class="input-group-text" id="addon-wrapping">Message:</span>
+  					<textarea name="message" class="form-control" placeholder="Message Content" aria-label="Message Content" aria-describedby="addon-wrapping"></textarea><br />
+                    <input type="hidden" name="target_id" value="{{user.id}}" />
+                    <button type="submit" class="btn btn-primary btn-sm">✉ Send Message</button>
+                </form>
+            </div>
         {% endif %}
-        <form action="/send_message" method="post">
-            <label for="password">Content:</label>
-            <input type="text" name="content" /><br />
-            <input type="hidden" name="target_id" value="{{user.id}}" />
-            <button type="submit">✉ Send Message</button>
-            </form>
-	{% endif %}
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
 {% endblock %}
