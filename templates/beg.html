@@ -11,12 +11,14 @@
     <div class="col-6">
 	{% if current_user.is_authenticated %}
         <div class="card">
-            <div class="card-header">{{ phrase }}</div>
+            <div class="card-header">You Go Begging...</div>
+            <div class="card-body">
             {% if amt %}
-                <div class="card-body">  
-                    You gained {{ amt }} {{ amt_type }}         
-                </div>
+                You gained {{ amt }} {{ amt_type }}
+            {% elif msg_error %}
+                {{ msg_error }}
             {% endif %}
+            </div>
             <div class="card-footer">
                 <a href="/casino" class="btn btn-primary">🎰 Back to the Casino</a>
             </div>

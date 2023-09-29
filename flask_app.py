@@ -255,6 +255,53 @@ def deposit():
         return render_template("bank.html",msg=f'❌ Insufficent Funds',bank=current_bank)
 
 
+"""
+@app.get("/test/<num>")
+def test_create(num):
+    if int(num) > 500:
+        num = 500
+    for i in range(int(num)):
+        name = random.choice(["Anna","Beth","Cindy","Deana","Evin","Felicity","Geany","Adam","Bob","Bill","Charlie","Chad","Derick","Dan","Eric","Unknown","Forever","Together","Slots","Casino","Gambler"])
+        r_value = random.randint(1,999999)
+        r_name = f'{name}-{r_value}'
+        new_user = Users(
+            username=r_name,
+            password='password',
+            email=f'{r_name}@fake.com',
+            online=0
+        )
+        #print(f"Register {username} : {password}")
+        
+        db.session.add(new_user)
+        db.session.commit()
+        #print(f"New User ID: {new_user.id}")
+        # Create Profile
+        new_profile = Profile(
+            user_id = int(new_user.id),
+            coins = 999,
+            bucks = 999,
+            limecoins = 999,
+            ambinar = 999,
+            gillinite = 999,
+            wins = 999,
+            losses = 999,
+            bio = f"I am a Fake User {r_name}",
+            status=f"Just Fake",
+            energy = 999
+        )
+        db.session.add(new_profile)
+        db.session.commit()
+        #print(f"Profile ID: {new_profile.id}")
+        # Create Bank
+        new_bank = Bank(
+            user_id = int(new_user.id),
+            bucks = 9999
+        )
+        db.session.add(new_bank)
+        db.session.commit()
+    return redirect("/")
+"""
+
 @app.route("/library")
 def library():
     global current_login
@@ -294,7 +341,7 @@ def beg():
     global current_login
     current_profile = current_login.get_profile()
     if current_profile.energy <= 0:
-        return render_template("beg.html",user=current_login,error_msg=f'❌ Out of Energy')
+        return render_template("beg.html",user=current_login,msg_error=f'❌ Out of Energy')
     
     event_chances = [False, True, False, False, False, False, True, False, False, True]
     r_event = random.choice(event_chances)
@@ -448,6 +495,8 @@ def register():
         password=request.form.get('password')
         password2=request.form.get("password2")
         email = request.form.get("email")
+        bio = request.form.get("bio")
+
         #Check if user exists
         user = Users.query.filter_by(username=username).first()
         if user:
@@ -477,8 +526,8 @@ def register():
             gillinite = 0,
             wins = 0,
             losses = 0,
-            bio = "",
-            status="",
+            bio = bio,
+            status="A new user",
             energy = 100
         )
         db.session.add(new_profile)
