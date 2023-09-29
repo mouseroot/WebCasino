@@ -366,8 +366,8 @@ def docks():
 @app.get("/rest")
 def rest():
     global current_login
-    r_restore = random.randint(8,36)
-    r_rest = r_restore * 1.5
+    r_restore = random.randint(15,36)
+    r_rest = r_restore * 2
     current_login.get_profile().add_energy(math.ceil(r_rest))
     db.session.commit()
     return render_template("rest.html",user=current_login,msg=f'Rest for {r_restore} hours regained {r_rest} ⚡ Energy')
@@ -661,7 +661,7 @@ with app.app_context():
         #Fix any negatives
         if user.get_profile().coins < 0:
             user.get_profile().coins = 0
-            
+
     db.session.commit()
 
 #app.run(host="0.0.0.0",port=80)

@@ -5,7 +5,22 @@
 {% endblock %}
 
 {% block content %}
-	{% if current_user.is_authenticated %}
-		Welcome to store
-	{% endif %}
+<br />
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="card">
+			<div class="card-header">Welcome to the store</div>
+			{% if current_user.is_authenticated %}
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item"><a href="#" class="btn btn-primary">🍫 Buy Candy $25 💵</a></li>
+					<li class="list-group-item"><a href="#" class="btn btn-primary">🍬 Buy Candy $5 💵</a></li>
+					<li class="list-group-item"><a href="#" class="btn btn-primary">🎫 Buy Ticket $100 💵</a></li>
+					<li class="list-group-item"><a href="#" class="btn btn-primary">📺 Buy T.V $250 💵</a></li>
+				</ul>
+			{% endif %}
+		</div>
+	</div>
+	<div class="col"></div>
+</div>
 {% endblock %}
