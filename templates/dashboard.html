@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Dashboard
+💻 Web Casino - My Dashboard
 {% endblock %}
 
 {% block content %}
@@ -14,11 +14,11 @@ My Dashboard
             </div>
 
             <ul class="list-group list-group-flush" style="text-align: left;">
-                <li class="list-group-item">💵 ${{ profile.bucks }} Bucks</li>
-                <li class="list-group-item">🔘 {{ profile.coins }} Coins</li>
-                <li class="list-group-item">🟡 {{ profile.limecoins }} Limecoins</li>
-                <li class="list-group-item">💍 {{ profile.ambinar }} Amnbinar</li>
-                <li class="list-group-item">💎 {{ profile.gillinite }} Gillinite</li>
+                <li class="list-group-item">💵 ${{ profile.bucks | money_format }} Bucks</li>
+                <li class="list-group-item">🔘 {{ profile.coins | money_format }} Coins</li>
+                <li class="list-group-item">🟡 {{ profile.limecoins | money_format }} Limecoins</li>
+                <li class="list-group-item">💍 {{ profile.ambinar | money_format }} Amnbinar</li>
+                <li class="list-group-item">💎 {{ profile.gillinite | money_format }} Gillinite</li>
                 <li class="list-group-item">⚡ {{ profile.energy }} / 100 Energy</li>
                 <li class="list-group-item">✔ {{ profile.wins }} Wins</li>
                 <li class="list-group-item">❌ {{ profile.losses }} Losses</li>

@@ -24,6 +24,23 @@ login_manager.init_app(app)
 #Globals
 current_login = None
 
+#Register Jinga2 Templates filters
+@app.template_filter('money_format')
+def format_test(s):
+    ival = int(s)
+    perc = 0
+    if ival < 1000:
+        return f'{ival}'
+    elif ival >= 1000 and ival < 1000000:
+        perc = math.floor(ival / 1000)
+        return f'{perc}K'
+    elif ival >= 1000000 and ival < 1000000000:
+        perc = math.floor(ival / 1000000)
+        return f'{perc}M'
+    elif ival >= 10000000000:
+        perc = math.floor(ival / 10000000000)
+        return f'{perc}B'
+
 #Models
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, nullable=False, autoincrement=True)

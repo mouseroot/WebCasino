@@ -29,7 +29,7 @@
         </ul>
         {% if current_user.is_authenticated %}
         <span class="navbar-text">
-            💵 ${{ current_user.get_profile().bucks }} | 🔘 {{ current_user.get_profile().coins }} | 🟡 {{ current_user.get_profile().limecoins }} | ⚡ {{ current_user.get_profile().energy }} | ✉ {{ messages | count }} (0)
+            💵 ${{ current_user.get_profile().bucks | money_format }} | 🔘 {{ current_user.get_profile().coins | money_format }} | 🟡 {{ current_user.get_profile().limecoins | money_format }} | ⚡ {{ current_user.get_profile().energy }} | ✉ {{ messages | count }} (0)
         </span>
         {% endif %}
         </div>
