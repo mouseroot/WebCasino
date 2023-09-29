@@ -26,7 +26,25 @@
         </div>
     </div>
     <div class="col-6">
-
+        <div class="card">
+            <div class="card-header">Update your Status</div>
+            <div class="card-body">
+            <form method="POST" action="/status">
+                <textarea name="status" class="form-control" placeholder="{{user.get_profile().status}}" aria-label="Message Content" aria-describedby="addon-wrapping"></textarea><br />
+                <button type="submit" class="btn btn-primary btn-sm">✏ Update Status</button>
+            </form>
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">Update your Bio</div>
+            <div class="card-body">
+            <form method="POST" action="/bio">
+                <textarea name="bio" class="form-control" placeholder="{{profile.bio}}" aria-label="Message Content" aria-describedby="addon-wrapping"></textarea><br />
+                <button type="submit" class="btn btn-primary btn-sm">✏ Update Bio</button>
+            </form>
+            </div>
+        </div>
     </div>
     <div class="col">
         {% if current_user.is_authenticated %}

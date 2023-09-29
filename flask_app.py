@@ -24,6 +24,13 @@ login_manager.init_app(app)
 #Globals
 current_login = None
 
+@app.template_filter('show_online')
+def show_online(s):
+    if int(s) == 0:
+        return "🔴"
+    elif int(s) == 1:
+        return "🟢"
+
 #Register Jinga2 Templates filters
 @app.template_filter('money_format')
 def format_test(s):
@@ -47,6 +54,14 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), unique=False, nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
+    online = db.Column(db.Integer,nullable=True)
+
+    def set_online(self):
+        self.online = 1
+
+    def set_offline(self):
+        self.online = 0
+
     def get_profile(self):
         return Profile.query.filter_by(user_id=self.id).first()
     
@@ -68,6 +83,7 @@ class Profile(db.Model):
     wins = db.Column(db.Integer, nullable=False)
     losses = db.Column(db.Integer, nullable=False)
     bio = db.Column(db.Text, nullable=True)
+    status = db.Column(db.Text, nullable=False)
 
     def add_by_string(self, s, val):
         lower_s = s.lower()
@@ -145,8 +161,8 @@ def index():
     if current_login:
         return render_template("home.html",messages=current_login.get_messages())
     else:
-        logout()
-        return render_template("home.html",messages=None)
+        logout_user()
+        return render_template("home.html",messages=[])
 
 
 @app.get("/messages/delete/<target>")
@@ -174,7 +190,7 @@ def send_message(target):
 @app.post("/send_message")
 def post_message():
     global current_login
-    content = request.form.get("content")
+    content = request.form.get("message")
     target_id = request.form.get("target_id")
     print(f"Attempting to send '{content}' to {target_id}")
     target_user = Users.query.filter_by(id=int(target_id)).first()
@@ -383,10 +399,32 @@ def profile():
     global current_login
     if current_login is None:
         logout_user()
+
         return redirect("/")
     else:
         return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
 
+@app.post("/status")
+def update_status():
+    global current_login
+    new_status = request.form.get("status")
+    if new_status:
+        current_login.get_profile().status = new_status
+        db.session.commit()
+        return redirect("/dashboard")
+    else:
+        return redirect("/dashboard")
+    
+@app.post("/bio")
+def update_bio():
+    global current_login
+    new_bio = request.form.get("bio")
+    if new_bio:
+        current_login.get_profile().bio = new_bio
+        db.session.commit()
+        return redirect("/dashboard")
+    else:
+        return redirect("/dashboard")
 
 @app.get("/members")
 def member_view():
@@ -421,7 +459,8 @@ def register():
         new_user = Users(
             username=username,
             password=password,
-            email=email
+            email=email,
+            online=1
         )
         #print(f"Register {username} : {password}")
         
@@ -439,6 +478,7 @@ def register():
             wins = 0,
             losses = 0,
             bio = "",
+            status="",
             energy = 100
         )
         db.session.add(new_profile)
@@ -462,6 +502,7 @@ def register():
 @app.route("/login", methods=["GET","POST"])
 def login():
     global current_login
+
     if request.method == "POST":
         post_username = request.form.get("username")
         post_password = request.form.get("password")
@@ -471,25 +512,41 @@ def login():
         ).first()
         if user:
             if user.password == post_password:
-                login_user(user)
+                
+                user.online = 1
                 current_login = user
+                db.session.commit()
+                login_user(user)
                 return redirect(url_for("index"))
         else:
             return render_template("invalid_login.html",username=post_username)
-    return render_template("login.html")
+    else:
+        return render_template("login.html")
 
 @app.get("/logout")
 def logout():
-    logout_user()
+    global current_login
+    if current_login:
+        my_user = Users.query.filter_by(id=current_login.id).first()
+        my_user.online = 0
+        db.session.commit()
+        print(f'Setting status for {current_login.username} to {"Online" if current_login.online == 1 else "Offline"}')
+        logout_user()
+    
     return redirect("/")
 
 #Main
 
 print("Initialize DB")
 db.init_app(app)
-
+db.session.expire_on_commit = False
 print("Create All...")
 with app.app_context():
     db.create_all()
+    #Assing Everyone offline
+    all_users = Users.query.all()
+    for user in all_users:
+        user.online = 0
+    db.session.commit()
 
 #app.run(host="0.0.0.0",port=80)

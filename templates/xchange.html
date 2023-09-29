@@ -5,7 +5,19 @@
 {% endblock %}
 
 {% block content %}
-	{% if current_user.is_authenticated %}
-		Exchange yo Currency
-	{% endif %}
+<br />
+<div class="row">
+	<div class="col"></div>
+	<div class="col-6">
+		{% if current_user.is_authenticated %}
+		<div class="card">
+			<div class="card-header">Exchange your Currency</div>
+			<div class="card-body">
+				<a href="/xchange/coins/100" class="btn btn-primary">🔘 100 -> 💵 $1</a>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+	<div class="col"></div>
+</div>
 {% endblock %}
