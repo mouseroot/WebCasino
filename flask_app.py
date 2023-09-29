@@ -164,6 +164,9 @@ def index():
         logout_user()
         return render_template("home.html",messages=[])
 
+#
+#   Messageing
+#
 
 @app.get("/messages/delete/<target>")
 def delete_target(target):
@@ -210,6 +213,10 @@ def post_message():
         return redirect("/")
 
 
+#
+#   Locations
+#
+
 @app.route("/casino")
 def casino():
     global current_login
@@ -226,6 +233,9 @@ def bank():
     current_bank = current_login.get_bank()
     return render_template("bank.html",user=current_login, bank=current_bank)
 
+#
+#   Bank 
+#
 @app.post("/bank/withdrawl")
 def withdrawl():
     global current_login
@@ -256,6 +266,7 @@ def deposit():
 
 
 """
+# Test Function to Gernerate random users, limit to 500
 @app.get("/test/<num>")
 def test_create(num):
     if int(num) > 500:
@@ -312,6 +323,28 @@ def xchange():
     global current_login
     return render_template("xchange.html",user=current_login)
 
+@app.get("/xchange/coins/<amt>")
+def xchange_coins(amt):
+    global current_login
+    current_profile = current_login.get_profile()
+    val = int(amt)
+    if val == 100:
+        if current_profile.coins >= 100:
+            current_profile.coins -= 100
+            current_profile.bucks += 1
+        else:
+            return redirect("/xchange")
+    elif val == 500:
+        if current_profile.coins >= 500:
+            current_profile.coins -= 500
+            current_profile.bucks += 5
+        else:
+            return redirect("/xchange")
+    db.session.commit()
+    return redirect("/xchange")
+    
+
+
 @app.route("/store")
 def store():
     global current_login
@@ -327,10 +360,13 @@ def docks():
     global current_login
     return render_template("docks.html",user=current_login)
 
+#
+#   Activities
+#
 @app.get("/rest")
 def rest():
     global current_login
-    r_restore = random.randint(1,24)
+    r_restore = random.randint(8,36)
     r_rest = r_restore * 1.5
     current_login.get_profile().add_energy(math.ceil(r_rest))
     db.session.commit()
@@ -365,7 +401,10 @@ def beg():
     else:
         return render_template("beg.html",user=current_login,phrase=r_phrase,msg_error=f'👎 Begging gets you nothing')
 
-
+#
+#   Games
+#   Slots / Roulette / War
+#
 @app.route("/slots/coins",methods=["GET","POST"])
 def slots():
     global current_login
@@ -441,6 +480,19 @@ def slots():
     elif request.method == "GET":
         return render_template("slot_coin.html",user=current_login,winning=False,msg=False)
 
+@app.route("/roll/coins",methods=["GET","POST"])
+def rolls():
+    global current_login
+    if request.method == "POST":
+        bet = int(request.form.get("bet"))
+        r_color = random.choice(["red","black","red","black","red","black","red","black"])
+        r_num = random.randint(2,20)
+
+    elif request.method == "GET":
+        return render_template("rollergame.html",user=current_login,winning=False,msg=False)
+#
+#   Dashboard / Profile
+#
 @app.get("/dashboard")
 def profile():
     global current_login
@@ -473,6 +525,9 @@ def update_bio():
     else:
         return redirect("/dashboard")
 
+#
+#   Members
+#
 @app.get("/members")
 def member_view():
     global current_login
@@ -486,6 +541,10 @@ def get_profile(name):
         return render_template("profile.html",user=user, profile=profile)
     else:
         return f"No User named {name}"
+
+#
+#   Login / Register / Logout
+#
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -584,8 +643,9 @@ def logout():
     
     return redirect("/")
 
-#Main
-
+#
+#   Main
+#
 print("Initialize DB")
 db.init_app(app)
 db.session.expire_on_commit = False
@@ -593,9 +653,15 @@ print("Create All...")
 with app.app_context():
     db.create_all()
     #Assing Everyone offline
+    print(f"Resetting all online statuses")
     all_users = Users.query.all()
     for user in all_users:
+        print(f"Settings {user.username} to offline")
         user.online = 0
+        #Fix any negatives
+        if user.get_profile().coins < 0:
+            user.get_profile().coins = 0
+            
     db.session.commit()
 
 #app.run(host="0.0.0.0",port=80)
