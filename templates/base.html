@@ -30,21 +30,18 @@
         </div>
     </nav>
     <div class="container-fluid text-center">
-        {% if msg %}
+        {% if msg_error %}
             <div class="alert alert-danger" role="alert">
-                {{ msg }}
+                {{ msg_error }}
             </div>
+        {% elif msg %}
+        <div class="alert alert-success" role="alert">
+            {{ msg }}
+        </div>
         {% endif %}
         <div id="container-fluid">
             {% block content %}{% endblock %}
         </div>
-        {% if current_user.is_authenticated %}
-            <hr />
-            <a href="/">Main Menu</a><br />
-        {% endif %}
-        <hr />
-        
-        Game by Mouseroot<br />
         <br />
         {% if current_user.is_authenticated %}
             <a href="/logout">Logout</a>

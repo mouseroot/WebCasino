@@ -5,19 +5,36 @@ Create a new account
 {% endblock %}
 
 {% block content %}
+<br />
+<div class="row">
+	<div class="col">
 
-<form action="#" method="post">
-<label for="username">Your new username:</label>
-<input type="text" name="username" /><br />
+	</div>
+	<div class="col-6">
+		<div class="card">
+			<div class="card-header">
+				<h2>Create a new Account</h2>
+			</div>
+			<div class="card-body">
+				<form action="#" method="post">
+					<label for="username">Your new username:</label>
+					<input type="text" name="username" /><br />
+					
+					<label for="password">a password:</label>
+					<input type="password" name="password" /><br />
+					
+					<label for="password2">same password:</label>
+					<input type="password" name="password2" /><br />
+					
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col">
 
-<label for="password">a password:</label>
-<input type="password" name="password" /><br />
-
-<label for="password2">same password:</label>
-<input type="password" name="password2" /><br />
-
-<button type="submit">Submit</button>
-</form>
+	</div>
+</div>
 
 {% endblock %}
 

@@ -343,7 +343,11 @@ def slots():
 @app.get("/dashboard")
 def profile():
     global current_login
-    return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
+    if current_login is None:
+        logout_user()
+        return redirect("/")
+    else:
+        return render_template("dashboard.html",user=current_login, profile=current_login.get_profile(),messages=current_login.get_messages())
 
 @app.get("/user/<name>")
 def get_profile(name):
@@ -364,11 +368,11 @@ def register():
         #Check if user exists
         user = Users.query.filter_by(username=username).first()
         if user:
-            return render_template("signup.html",msg=f'❌ Username {username} already exists')
+            return render_template("signup.html",msg_error=f'❌ Username {username} already exists')
         # Create User
         #Check if passwords match
         if password != password2:
-            return render_template("signup.html",msg=f'❌ Passwords dont match!')
+            return render_template("signup.html",msg_error=f'❌ Passwords dont match!')
         new_user = Users(
             username=username,
             password=password

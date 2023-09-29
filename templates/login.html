@@ -14,14 +14,36 @@ Login
 
 {% block content %}
 	{% if not current_user.is_authenticated %}
-		<h2>Login to your account</h2>
-		<form action="#" method="post">
-		<label for="username">Username:</label>
-		<input type="text" name="username" /><br />
-		<label for="password">Password:</label>
-		<input type="password" name="password" /><br />
-		<button type="submit">Submit</button>
-		</form>
+	<br />
+	<div class="row">
+		<div class="col">
+
+		</div>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header">
+					<h2>Login to your account</h2>
+				</div>
+				<div class="card-body">
+					<form action="#" method="post">
+						<label for="username">Username:</label>			
+						<input type="text" name="username" /><br />
+
+						<label for="password">Password:</label>
+						<input type="password" name="password" /><br />
+
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+
+		</div>
+	</div>
+
+		
+	</div>
 	{% endif %}
 {% endblock %}
 
