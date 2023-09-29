@@ -6,7 +6,24 @@
 
 {% block content %}
 	{% if current_user.is_authenticated %}
-		Your own home<br />
-		<a href="/rest">🛌 Rest</a>
+		<br />
+		<div class="row">
+			<div class="col">
+
+			</div>
+			<div class="col-6">
+				<div class="card">
+					<div class="card-body">
+					  <h5 class="card-title">🏠 Welcome Home</h5>
+					  <h6 class="card-subtitle mb-2 text-body-secondary">Your own personal space</h6>
+					  <p class="card-text">Rest to regain ⚡</p>
+					  <a href="/rest" class="card-link btn btn-primary">🛌 Rest</a>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+
+			</div>
+		</div>
 	{% endif %}
 {% endblock %}

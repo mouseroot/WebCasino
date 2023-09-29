@@ -245,7 +245,7 @@ def beg():
     global current_login
     current_profile = current_login.get_profile()
     if current_profile.energy <= 0:
-        return render_template("no_energy.html",user=current_login)
+        return render_template("beg.html",user=current_login,error_msg=f'❌ Out of Energy')
     
     event_chances = [False, True, False, False, False, False, True, False, False, True]
     r_event = random.choice(event_chances)
@@ -264,12 +264,17 @@ def beg():
         r_type = False
     current_profile.sub_energy(10)
     db.session.commit()
-    return render_template("beg.html",user=current_login,phrase=r_phrase,amt=r_beg,amt_type=r_type)
+    if r_event:
+        return render_template("beg.html",user=current_login,phrase=r_phrase,amt=r_beg,amt_type=r_type,msg=f'👍 Begging was Successful')
+    else:
+        return render_template("beg.html",user=current_login,phrase=r_phrase,msg_error=f'👎 Begging gets you nothing')
 
 
 @app.route("/slots/coins",methods=["GET","POST"])
 def slots():
     global current_login
+    msg = None
+    msg_error = None
     curr_profile = current_login.get_profile()
     if curr_profile.energy <= 0:
         return render_template("no_energy.html",user=current_login)
@@ -279,7 +284,7 @@ def slots():
         if curr_profile.coins >= bet:
             curr_profile.coins -= bet
             curr_profile.sub_energy(5)
-            roll = "2,3,4,5,6,7,8,9,A,J,K,Q,♥,♦,♠,♣".split(",")
+            roll = "2️,3,4,5,6,7,🎱,9,A,j,K,Q,♥,♦,♠,♣".split(",")
             rolls = []
             roll_data = []
             multi = 0
@@ -330,12 +335,12 @@ def slots():
                 curr_profile.add_coins(winning)
                 msg = f"💲💲💲 You Won { winning } coins"
             else:
-                msg = f"👎 You lost {bet} coins"
+                msg_error = f"👎 You lost {bet} coins"
                 curr_profile.losses += 1
             db.session.commit()
-            return render_template("slot_coin.html",user=current_login,winning=winning,msg=msg,data=roll_data)
+            return render_template("slot_coin.html",user=current_login,winning=winning,msg=msg,msg_error=msg_error,data=roll_data)
         else:
-            return render_template("slot_coin.html",user=current_login,winning=False,msg=
+            return render_template("slot_coin.html",user=current_login,winning=False,msg_error=
             f'❌ Not enough coin to bet {bet}')
     elif request.method == "GET":
         return render_template("slot_coin.html",user=current_login,winning=False,msg=False)

@@ -13,20 +13,28 @@ Create a new account
 	<div class="col-6">
 		<div class="card">
 			<div class="card-header">
-				<h2>Create a new Account</h2>
+				<h2>✏ Create a new Account</h2>
 			</div>
 			<div class="card-body">
 				<form action="#" method="post">
-					<label for="username">Your new username:</label>
-					<input type="text" name="username" /><br />
+					<!-- Username-->
+					<span class="input-group-text" id="addon-wrapping">Username</span>
+					<input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping"><br />
 					
-					<label for="password">a password:</label>
-					<input type="password" name="password" /><br />
+					<!-- Email-->
+					<span class="input-group-text" id="addon-wrapping">Email Address</span>
+					<input type="email" name="email" class="form-control" placeholder="Email Address" aria-label="Email" aria-describedby="addon-wrapping"><br />
+
+
+					<!-- Password-->
+					<span class="input-group-text" id="addon-wrapping">Password</span>
+					<input type="password" name="password" class="form-control" placeholder="password" aria-label="Password" aria-describedby="addon-wrapping"><br />
 					
-					<label for="password2">same password:</label>
-					<input type="password" name="password2" /><br />
-					
-					<button type="submit">Submit</button>
+					<!-- Password2-->
+					<span class="input-group-text" id="addon-wrapping">Password Again</span>
+					<input type="password" name="password2" class="form-control" placeholder="second password" aria-label="Second Password" aria-describedby="addon-wrapping"><br />
+					<br />
+					<button type="submit" class="btn btn-primary">Create Account</button>
 				</form>
 			</div>
 		</div>

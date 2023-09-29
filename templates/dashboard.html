@@ -5,32 +5,50 @@ My Dashboard
 {% endblock %}
 
 {% block content %}
-<p>💻 My Dashboard</p>
+<br />
+<div class="row">
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+              💻 My Dashboard
+            </div>
 
-     💵 ${{ profile.bucks }} Bucks<br />
-     🔘 {{ profile.coins }} Coins<br />
-     🟡 {{ profile.limecoins }} Limecoins<br />
-     💍 {{ profile.ambinar }} Amnbinar<br />
-     💎 {{ profile.gillinite }} Gillinite<br />
-     ⚡ {{ profile.energy }} / 100 Energy<br />
-     ✔ {{ profile.wins }} Wins<br />
-     ❌ {{ profile.losses }} Losses<br />
-    <br />
-    {% if current_user.is_authenticated %}
-     <div class="card">
-        <div class="card-header">
-          Messages
+            <ul class="list-group list-group-flush" style="text-align: left;">
+                <li class="list-group-item">💵 ${{ profile.bucks }} Bucks</li>
+                <li class="list-group-item">🔘 {{ profile.coins }} Coins</li>
+                <li class="list-group-item">🟡 {{ profile.limecoins }} Limecoins</li>
+                <li class="list-group-item">💍 {{ profile.ambinar }} Amnbinar</li>
+                <li class="list-group-item">💎 {{ profile.gillinite }} Gillinite</li>
+                <li class="list-group-item">⚡ {{ profile.energy }} / 100 Energy</li>
+                <li class="list-group-item">✔ {{ profile.wins }} Wins</li>
+                <li class="list-group-item">❌ {{ profile.losses }} Losses</li>
+            </ul>
         </div>
-        <ul class="list-group list-group-flush">
-            {% for message in messages %}
-            <li class="list-group-item">
-                <div class="card">
-                    <p>{{message.get_author().username}}</p>
-                    <p>{{ message.content }}</p>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class="col">
+        {% if current_user.is_authenticated %}
+        <div class="card" style="width: 18rem;">
+           <div class="card-header">
+             Messages
+           </div>
+           <div class="card-body">
+            <ul class="list-group list-group-flush">
+                {% for message in messages %}
+                <li class="list-group-item">
+                    <div class="card">
+                        <p>{{message.get_author().username}}</p>
+                        <p>{{ message.content }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+         </div>
+       {% endif %}
+    </div>
+</div>
+
 {% endblock %}
