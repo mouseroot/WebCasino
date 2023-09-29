@@ -6,16 +6,16 @@
 
 {% block content %}
 <p> {{user.username }} profile</p>
-<ul>
-    <li> 💵 ${{ profile.bucks }} Bucks</li>
-    <li> 🔘 {{ profile.coins }} Coins</li>
-    <li> 🟡 {{ profile.limecoins }} Limecoins</li>
-    <li> 💍 {{ profile.ambinar }} Amnbinar</li>
-    <li> 💎 {{ profile.gillinite }} Gillinite</li>
-    <li> ⚡ {{ profile.energy }} / 100 Energy</li>
-    <li> ✔ {{ profile.wins }} Wins</li>
-    <li> ❌ {{ profile.losses }} Losses</li>
-</ul>
+     💵 ${{ profile.bucks }} Bucks<br >
+     🔘 {{ profile.coins }} Coins<br />
+     🟡 {{ profile.limecoins }} Limecoins<br />
+     💍 {{ profile.ambinar }} Amnbinar<br />
+     💎 {{ profile.gillinite }} Gillinite<br />
+     ⚡ {{ profile.energy }} / 100 Energy<br />
+     ✔ {{ profile.wins }} Wins<br />
+     ❌ {{ profile.losses }} Losses<br />
+     <br />
+     <p>Contact {{user.username}}</p>
     {% if current_user.is_authenticated %}
         <a href="/send_message/{{user.username}}">✉ Send Message to {{ user.username}}</a>
     {% endif %}

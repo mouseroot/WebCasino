@@ -14,7 +14,7 @@ Login
 
 {% block content %}
 	{% if not current_user.is_authenticated %}
-		<h1>Login to your account</h1>
+		<h2>Login to your account</h2>
 		<form action="#" method="post">
 		<label for="username">Username:</label>
 		<input type="text" name="username" /><br />
@@ -23,7 +23,6 @@ Login
 		<button type="submit">Submit</button>
 		</form>
 	{% endif %}
-	<a href="{{ url_for('index')}}">Home</a>
 {% endblock %}
 
 

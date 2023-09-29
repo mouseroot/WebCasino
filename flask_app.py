@@ -292,7 +292,7 @@ def slots():
                     roll_i = random.choice(roll)
                     rolls.append(roll_i)
                 roll_data.append(rolls)
-                print(f"SPIN {i}/5\t{rolls[0]}|{rolls[1]}|{rolls[2]}")
+                #print(f"SPIN {i}/5\t{rolls[0]}|{rolls[1]}|{rolls[2]}")
                 
                 
                 if rolls[0] == rolls[1] == rolls[2]:
@@ -322,9 +322,9 @@ def slots():
             if did_win:
                 
                 if multi > 1:
-                    print(f"Win Multiplier x{multi}")
+                    #print(f"Win Multiplier x{multi}")
                     if multi > 3:
-                        print(f"+ 4x Bonus +500")
+                        #print(f"+ 4x Bonus +500")
                         winning += 500
                     winning *= multi
                 curr_profile.add_coins(winning)
@@ -360,20 +360,24 @@ def register():
     if request.method == "POST":
         username=request.form.get('username')
         password=request.form.get('password')
+        password2=request.form.get("password2")
         #Check if user exists
         user = Users.query.filter_by(username=username).first()
         if user:
             return render_template("signup.html",msg=f'❌ Username {username} already exists')
         # Create User
+        #Check if passwords match
+        if password != password2:
+            return render_template("signup.html",msg=f'❌ Passwords dont match!')
         new_user = Users(
             username=username,
             password=password
         )
-        print(f"Register {username} : {password}")
+        #print(f"Register {username} : {password}")
         
         db.session.add(new_user)
         db.session.commit()
-        print(f"New User ID: {new_user.id}")
+        #print(f"New User ID: {new_user.id}")
         # Create Profile
         new_profile = Profile(
             user_id = int(new_user.id),
@@ -389,7 +393,7 @@ def register():
         )
         db.session.add(new_profile)
         db.session.commit()
-        print(f"Profile ID: {new_profile.id}")
+        #print(f"Profile ID: {new_profile.id}")
         # Create Bank
         new_bank = Bank(
             user_id = int(new_user.id),
@@ -397,7 +401,7 @@ def register():
         )
         db.session.add(new_bank)
         db.session.commit()
-        print(f"Bank ID: {new_bank.id}")
+        #print(f"Bank ID: {new_bank.id}")
 
         #Login new user.
         login_user(new_user)
@@ -411,7 +415,7 @@ def login():
     if request.method == "POST":
         post_username = request.form.get("username")
         post_password = request.form.get("password")
-        print(f"Login {post_username} : {post_password}")
+        #print(f"Login {post_username} : {post_password}")
         user = Users.query.filter_by(
             username=post_username
         ).first()
@@ -433,6 +437,7 @@ def logout():
 
 print("Initialize DB")
 db.init_app(app)
+
 print("Create All...")
 with app.app_context():
     db.create_all()
